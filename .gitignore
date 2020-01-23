@@ -3,9 +3,6 @@ __pycache__
 *.pyc
 
 #Django
-#db.sqlite3
-
-migrations/*
 
 #IDE
 .vscode

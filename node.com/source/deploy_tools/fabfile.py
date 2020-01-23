@@ -12,7 +12,7 @@ def deploy():
     with cd(site_folder):
         _get_latest_source()
 
-    with cd(site_folder):
+    with cd(source_folder):
         _update_virtualenv()
         _update_static_files()
         _update_database()
