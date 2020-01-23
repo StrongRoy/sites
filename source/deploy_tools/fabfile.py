@@ -14,6 +14,7 @@ def deploy():
         _update_virtualenv()
         _update_static_files()
         _update_database()
+        _update_settings()
 
 
 def _get_latest_source():
@@ -25,15 +26,15 @@ def _get_latest_source():
     run(f'git reset --hard {current_commit}')
 
 def _update_settings():
-    settings_path = 'source/superlists/settings.py'
+    settings_path = './source/superlists/settings.py'
     sed(settings_path,"DEBUG = True","DEBUG = False")
     sed(settings_path,
     'ALLOWED_HOSTS = .+$',f'ALLOWED_HOSTS = ["{env.host}"]'
     )
-    secret_key_file =  'source/superlist/secret_key.py'
+    secret_key_file =  './source/superlist/secret_key.py'
     if not exists(secret_key_file):
-        chars = ''
-        key = ''.join(random.SystemRandom.choice(chars) for _ in range(50))
+        chars = '(53^65d5(rupgyk59e6fvqk_*b9+9-b=5fv&y$rp159u9(vc-h'
+        key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
         append(secret_key_file,f'SECRET_KEY = "{key}"')
     append(settings_path,'\nfrom .secret_key import SECRET_KEY')
 
