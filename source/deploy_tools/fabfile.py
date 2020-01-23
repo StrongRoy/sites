@@ -41,12 +41,12 @@ def _update_settings():
 def _update_virtualenv():
     if not exists('virtualenv/bin/pip'):
         run(f'python3.6 -m venv virtualenv')
-    run('./virtualenv/bin/pip install -r requirements.txt')
+    run('./virtualenv/bin/pip install -r ./source/requirements.txt')
 
 
 def _update_static_files():
-    run('./virtualenv/bin/python manage.py collectstatic --noinput')
+    run('./virtualenv/bin/python ./source/manage.py collectstatic --noinput')
 
 
 def _update_database():
-    run('./virtualenv/bin/python manage.py migrate --noinput')
+    run('./virtualenv/bin/python ./source/manage.py migrate --noinput')
