@@ -11,9 +11,9 @@ def deploy():
     run(f'mkdir -p {site_folder}')
     with cd(site_folder):
         _get_latest_source()
+        _update_virtualenv()
 
     with cd(source_folder):
-        _update_virtualenv()
         _update_static_files()
         _update_database()
 
@@ -42,7 +42,7 @@ def _update_settings():
 def _update_virtualenv():
     if not exists('virtualenv/bin/pip'):
         run(f'python3.6 -m venv virtualenv')
-    run('./virtualenv/bin/pip install -r requirements.txt')
+    run('./virtualenv/bin/pip install -r ./source/requirements.txt')
 
 
 def _update_static_files():
