@@ -15,7 +15,7 @@
 from django.test import TestCase as DjangoTest
 from lists.models import Item,List
 from django.urls import reverse
-
+from django.utils.html import escape
 class HomePageTest(DjangoTest):
 
     def test_uses_home_template(self):
@@ -90,3 +90,14 @@ class NewListTest(DjangoTest):
         self.assertEqual(response.status_code, 302)
         new_list = List.objects.first()
         self.assertRedirects(response,reverse('view_list',args=(new_list.id,)))
+    def test_validation_errors_are_send_back_to_home_page_template(self):
+        response = self.client.post(reverse('new_list'),data={'item_text': ''})
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed(response,'home.html')
+        expected_error = escape("You can't have an empty list item.")
+        self.assertContains(response,expected_error)
+    
+    def test_invalid_list_item_arent_saved(self):
+        self.client.post(reverse('new_list'),data={'item_text': ''})
+        self.assertEqual(List.objects.count(),0)
+        self.assertEqual(Item.objects.count(),0)
